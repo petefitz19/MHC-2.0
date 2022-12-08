@@ -105,6 +105,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    char buffer[20];		
+    sprintf(buffer, "Hello World\r\n");
+    HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+    HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
