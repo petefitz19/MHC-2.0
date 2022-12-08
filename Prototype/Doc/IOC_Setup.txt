@@ -1,0 +1,17 @@
+The following steps were followed in configuring the .ioc file for this project:
+
+1. System Core -> Sys: Set Debug to Serial Wire
+2. System Core -> RCC: Set High Speed Clock (HSE) to Crystal/Ceramic Resonator
+3. System Core -> GPIO: Set The following GPIO Inputs as follows
+    - PA3: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE0_A
+    - PA4: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE0_B
+    - PA5: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE0_SW
+    - PA6: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE1_A
+    - PA7: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE1_B
+    - PB0: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE1_SW
+4. Analog -> ADC1: Check IN0, IN1, Under Parameter Settings -> ADC Settings: Set Continuous Conversion Mode to Enabled
+5. Connectivity -> I2C1: Set I2C to I2C
+6. Connectivity -> USB: Enable Device (FS)
+7. Connectivity -> USART1: Set Mode to Asynchronous
+8. MiddleWare -> USB_DEVICE: Set Class For FS IP to Human Interface Device Class (HID)
+9. Clock Configuration: Auto Generate Values, then Set HCLK (MHz) to 72 which is the maximum value and press Enter
