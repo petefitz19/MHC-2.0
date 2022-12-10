@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Potentiometer.hpp"
 
 /* USER CODE END Includes */
 
@@ -62,6 +63,8 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+Potentiometer potentiometer1(&hadc1, (uint32_t)0,
+                              GPIOA, GPIO_PIN_0);
 
 /* USER CODE END 0 */
 
@@ -98,6 +101,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+  potentiometer1.Init();
 
   /* USER CODE END 2 */
 
@@ -105,9 +109,20 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    char buffer[20];		
-    sprintf(buffer, "Hello World\r\n");
-    HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+    // Testing UART
+    // char buffer[20];		
+    // sprintf(buffer, "Hello World\r\n");
+    // HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+
+    // Testing Potentiometer
+    uint16_t pot1_val = 0;
+    if(0 == potentiometer1.Read(pot1_val))		
+	  {		
+		  char buffer[10];		
+		  sprintf(buffer, "%u \r\n", pot1_val);
+		  HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+	  }
+
     HAL_Delay(1000);
     /* USER CODE END WHILE */
 
