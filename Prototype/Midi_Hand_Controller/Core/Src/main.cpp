@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "Potentiometer.hpp"
+#include "RotaryEncoder.hpp"
 
 /* USER CODE END Includes */
 
@@ -64,7 +65,11 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 Potentiometer potentiometer1(&hadc1, (uint32_t)0,
-                              GPIOA, GPIO_PIN_0);
+                             GPIOA, GPIO_PIN_0);
+
+RotaryEncoder rotaryEncoder1(GPIOA, GPIO_PIN_3,
+                             GPIOA, GPIO_PIN_4,
+                             GPIOA, GPIO_PIN_5);
 
 /* USER CODE END 0 */
 
@@ -102,11 +107,14 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   potentiometer1.Init();
+  rotaryEncoder1.Init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint8_t re1_val = 0;
+  uint8_t re1_sw_state = 0;
   while (1)
   {
     // Testing UART
@@ -115,15 +123,31 @@ int main(void)
     // HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
 
     // Testing Potentiometer
-    uint16_t pot1_val = 0;
-    if(0 == potentiometer1.Read(pot1_val))		
+    // uint16_t pot1_val = 0;
+    // if(0 == potentiometer1.Read(pot1_val))		
+	  // {		
+		//   char buffer[10];		
+		//   sprintf(buffer, "%u \r\n", pot1_val);
+		//   HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+	  // }
+
+    // Testing Rotary Encoder
+    if(0 == rotaryEncoder1.Read())		
 	  {		
-		  char buffer[10];		
-		  sprintf(buffer, "%u \r\n", pot1_val);
-		  HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);// Sending in normal mode
+		  char buffer[20];
+      if(rotaryEncoder1.GetCount() != re1_val){
+        re1_val = rotaryEncoder1.GetCount();
+        sprintf(buffer, "RE: %d, %d\n", re1_val, re1_sw_state);
+		    HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);
+      }
+      if(rotaryEncoder1.GetSwitchState() != re1_sw_state){
+        re1_sw_state = rotaryEncoder1.GetSwitchState();
+        sprintf(buffer, "RE: %d, %d\r\n", re1_val, re1_sw_state);
+		    HAL_UART_Transmit(&huart1,(uint8_t*)buffer,sizeof(buffer),10);
+      }
 	  }
 
-    HAL_Delay(1000);
+    // HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

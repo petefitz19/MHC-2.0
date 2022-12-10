@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Drivers/MHC/Potentiometer.cpp 
+../Drivers/MHC/Potentiometer.cpp \
+../Drivers/MHC/RotaryEncoder.cpp 
 
 OBJS += \
-./Drivers/MHC/Potentiometer.o 
+./Drivers/MHC/Potentiometer.o \
+./Drivers/MHC/RotaryEncoder.o 
 
 CPP_DEPS += \
-./Drivers/MHC/Potentiometer.d 
+./Drivers/MHC/Potentiometer.d \
+./Drivers/MHC/RotaryEncoder.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ Drivers/MHC/%.o Drivers/MHC/%.su: ../Drivers/MHC/%.cpp Drivers/MHC/subdir.mk
 clean: clean-Drivers-2f-MHC
 
 clean-Drivers-2f-MHC:
-	-$(RM) ./Drivers/MHC/Potentiometer.d ./Drivers/MHC/Potentiometer.o ./Drivers/MHC/Potentiometer.su
+	-$(RM) ./Drivers/MHC/Potentiometer.d ./Drivers/MHC/Potentiometer.o ./Drivers/MHC/Potentiometer.su ./Drivers/MHC/RotaryEncoder.d ./Drivers/MHC/RotaryEncoder.o ./Drivers/MHC/RotaryEncoder.su
 
 .PHONY: clean-Drivers-2f-MHC
 

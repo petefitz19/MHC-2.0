@@ -1,0 +1,5 @@
+../Drivers/MHC/RotaryEncoder.cpp:10:1:RotaryEncoder::RotaryEncoder(GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t)	24	static
+../Drivers/MHC/RotaryEncoder.cpp:23:5:int RotaryEncoder::Init()	32	static
+../Drivers/MHC/RotaryEncoder.cpp:49:5:int RotaryEncoder::Read()	16	static
+../Drivers/MHC/RotaryEncoder.cpp:70:9:uint8_t RotaryEncoder::GetCount()	16	static
+../Drivers/MHC/RotaryEncoder.cpp:75:9:uint8_t RotaryEncoder::GetSwitchState()	16	static
