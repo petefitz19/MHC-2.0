@@ -31,6 +31,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#define MIDI_IN_PORTS_NUM   0x01
+#define MIDI_OUT_PORTS_NUM  0x01
 
 /* USER CODE END Includes */
 

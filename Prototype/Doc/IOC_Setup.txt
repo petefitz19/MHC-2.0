@@ -10,7 +10,7 @@ The following steps were followed in configuring the .ioc file for this project:
     - PA7: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE1_B
     - PB0: GPIO Mode = Input Mode, GPIO Pull Up/Pull Down = Pull Up, User Label = RE1_SW
 4. Analog -> ADC1: Check IN0, IN1, Under Parameter Settings -> ADC Settings: Set Continuous Conversion Mode to Enabled
-5. Connectivity -> I2C1: Set I2C to I2C
+5. Connectivity -> I2C2: Set I2C to I2C
 6. Connectivity -> USB: Enable Device (FS)
 7. Connectivity -> USART1: Set Mode to Asynchronous
 8. MiddleWare -> USB_DEVICE: Set Class For FS IP to Human Interface Device Class (HID)

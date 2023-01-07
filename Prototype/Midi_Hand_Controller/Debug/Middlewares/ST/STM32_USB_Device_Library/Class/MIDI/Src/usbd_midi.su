@@ -1,0 +1,12 @@
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:609:17:USBD_MIDI_Init	24	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:649:17:USBD_MIDI_DeInit	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:672:17:USBD_MIDI_Setup	32	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:743:9:USBD_MIDI_GetDeviceState	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:754:9:USBD_MIDI_GetState	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:767:9:USBD_MIDI_SendReport	32	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:791:18:USBD_MIDI_GetCfgDesc	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:803:11:USBD_MIDI_DeviceQualifierDescriptor	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:817:17:USBD_MIDI_DataIn	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:834:17:USBD_MIDI_DataOut	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:852:20:USBD_MIDI_DataInHandler	16	static
+../Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src/usbd_midi.c:863:18:USBD_MIDI_GetDeviceQualifierDesc	16	static
