@@ -1,0 +1,8 @@
+#line 1 "/Users/pjfitz7e/Documents/Arduino/MHC_2_0_0/.vscode/arduino.json"
+{
+    "sketch": "MHC_2_0_0.ino",
+    "output": "build",
+    "configuration": "softdevice=s140v6,debug=l0",
+    "board": "adafruit:nrf52:sparkfunnrf52840mini",
+    "port": "/dev/tty.usbmodem101"
+}

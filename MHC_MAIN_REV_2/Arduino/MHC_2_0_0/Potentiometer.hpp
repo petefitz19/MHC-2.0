@@ -1,0 +1,25 @@
+#ifndef POTENTIOMETER_HPP
+#define POTENTIOMETER_HPP
+
+#include <Arduino.h>
+#include <stdint.h>
+#include "LinearMidiComponent.hpp"
+
+namespace MHC 
+{
+    class Potentiometer: public LinearMidiComponent 
+    {    
+    public:
+        Potentiometer();
+        Potentiometer(uint8_t pin, MidiMessage_t value);
+
+        virtual void Init();
+        virtual uint32_t Read();
+
+    private:
+        uint8_t m_pin;
+    };
+
+}
+
+#endif // POTENTIOMETER_HPP

@@ -1,0 +1,11 @@
+{
+  "additionalFiles": "../../..,../../..,../../..,../..,../..,../..,../..,../..,../..,../..,../..,../..,../..,../..,../..,../..,../..",
+  "builtInToolsFolders": "",
+  "compiler.optimization_flags": "",
+  "customBuildProperties": "",
+  "fqbn": "adafruit:nrf52:sparkfunnrf52840mini:softdevice=s140v6,debug=l0",
+  "hardwareFolders": "/Users/pjfitz7e/Library/Arduino15/packages",
+  "otherLibrariesFolders": "/Users/pjfitz7e/Documents/Arduino/libraries",
+  "runtime.ide.version": "10607",
+  "sketchLocation": "/Users/pjfitz7e/Documents/Arduino/MHC_2_0_0"
+}
