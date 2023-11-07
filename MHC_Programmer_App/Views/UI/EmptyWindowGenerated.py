@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '/Users/pjfitz7e/Documents/test_arduino/EmptyWindowGenerated.ui'
+# Form implementation generated from reading ui file '/Users/pjfitz7e/Documents/Github/MHC-2.0/MHC_Programmer_App/Views/UI/EmptyWindowGenerated.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #

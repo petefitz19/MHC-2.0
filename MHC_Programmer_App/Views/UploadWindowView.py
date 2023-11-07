@@ -9,10 +9,10 @@ from Views.UI.UploadWindowViewGenerated import Ui_uploadWidget
 from Controllers.PresetIOController import PresetIOController
 
 class MessageType(Enum):
-    PC = 1
-    CC = 2
-    NoteOn = 3
-    NoteOff = 4
+    PC = 0xC0
+    CC = 0xB0
+    NoteOn = 0x90
+    NoteOff = 0x80
 
 
 class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
@@ -66,7 +66,7 @@ class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
         try:
             ser = serial.Serial(self.serialPortComboBox.currentText().split(" ")[0], 115200, timeout=1)  # open serial port
             values = bytearray([])
-            values.append(int(self.bankSpinBox.value()))
+            values.append(int(self.bankSpinBox.value() - 1))
 
             for j in range(self.tableWidget.rowCount()):
                 values.append(MessageType[self.tableWidget.cellWidget(j, 0).currentText()].value)
@@ -107,16 +107,14 @@ class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
                 self.populate_ui_from_dicts(preset_list)
 
             # TODO: Add Error handling here
-                    
 
     def on_save_csv(self):
-        dlg = QtWidgets.QFileDialog()
-        dlg.setNameFilter("Spreadsheet (*.csv)")
 
-        if dlg.exec():
-            filenames = dlg.selectedFiles()
+        fileName = QtWidgets.QFileDialog.getSaveFileName(self, 
+            "Save File", "", "CSV Files(*.csv)")
+        if fileName and fileName[0] != "":
             preset_list = self.populate_dicts_from_ui()
-            self.__preset_io_controller.save_preset_file(preset_list, filenames[0])
+            self.__preset_io_controller.save_preset_file(preset_list, fileName[0])
 
     def populate_ui_from_dicts(self, preset_list):
         for dict in preset_list:
