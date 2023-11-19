@@ -68,11 +68,103 @@ class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
             values = bytearray([])
             values.append(int(self.bankSpinBox.value() - 1))
 
-            for j in range(self.tableWidget.rowCount()):
-                values.append(MessageType[self.tableWidget.cellWidget(j, 0).currentText()].value)
-                values.append(int(self.tableWidget.cellWidget(j, 1).value()))
-                values.append(int(self.tableWidget.cellWidget(j, 2).value()))
-                values.append(int(self.tableWidget.cellWidget(j, 3).value()))
+            # for j in range(self.tableWidget.rowCount()):
+            #     values.append(MessageType[self.tableWidget.cellWidget(j, 0).currentText()].value)
+            #     values.append(int(self.tableWidget.cellWidget(j, 1).value()))
+            #     values.append(int(self.tableWidget.cellWidget(j, 2).value()))
+            #     values.append(int(self.tableWidget.cellWidget(j, 3).value()))
+
+            # TODO: Revert back to above code once fix can be added in FW
+            # Issue is that logic is flipped for binary midi components
+            # Button On
+            values.append(MessageType[self.tableWidget.cellWidget(1, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(1, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(1, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(1, 3).value()))
+
+            # Button Off
+            values.append(MessageType[self.tableWidget.cellWidget(0, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(0, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(0, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(0, 3).value()))
+
+            # Five Way Up On
+            values.append(MessageType[self.tableWidget.cellWidget(3, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(3, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(3, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(3, 3).value()))
+
+            # Five Way Up Off
+            values.append(MessageType[self.tableWidget.cellWidget(2, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(2, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(2, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(2, 3).value()))
+
+            # Five Way Down On
+            values.append(MessageType[self.tableWidget.cellWidget(5, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(5, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(5, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(5, 3).value()))
+
+            # Five Way Down Off
+            values.append(MessageType[self.tableWidget.cellWidget(4, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(4, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(4, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(4, 3).value()))
+
+            # Five Way Left On
+            values.append(MessageType[self.tableWidget.cellWidget(7, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(7, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(7, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(7, 3).value()))
+
+            # Five Way Left Off
+            values.append(MessageType[self.tableWidget.cellWidget(6, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(6, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(6, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(6, 3).value()))
+
+            # Five Way Right On
+            values.append(MessageType[self.tableWidget.cellWidget(9, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(9, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(9, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(9, 3).value()))
+
+            # Five Way Right Off
+            values.append(MessageType[self.tableWidget.cellWidget(8, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(8, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(8, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(8, 3).value()))
+
+            # Five Way Click On
+            values.append(MessageType[self.tableWidget.cellWidget(11, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(11, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(11, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(11, 3).value()))
+
+            # Five Way Click Off
+            values.append(MessageType[self.tableWidget.cellWidget(10, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(10, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(10, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(10, 3).value()))
+
+            # Slider
+            values.append(MessageType[self.tableWidget.cellWidget(12, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(12, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(12, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(12, 3).value()))
+
+            #Joystick X
+            values.append(MessageType[self.tableWidget.cellWidget(13, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(13, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(13, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(13, 3).value()))
+
+            # Joystick Y
+            values.append(MessageType[self.tableWidget.cellWidget(14, 0).currentText()].value)
+            values.append(int(self.tableWidget.cellWidget(14, 1).value()))
+            values.append(int(self.tableWidget.cellWidget(14, 2).value()))
+            values.append(int(self.tableWidget.cellWidget(14, 3).value()))
 
             values.append(0xFF)
             ser.write(values)
