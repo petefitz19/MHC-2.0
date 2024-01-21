@@ -22,6 +22,5 @@ void Button::Init()
 
 uint32_t Button::Read() 
 {
-  Serial.println(!digitalRead(m_pin));
   return !digitalRead(m_pin);
 }

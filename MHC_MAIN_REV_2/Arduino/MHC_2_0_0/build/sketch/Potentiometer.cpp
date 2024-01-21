@@ -22,5 +22,13 @@ void Potentiometer::Init()
 
 uint32_t Potentiometer::Read() 
 {
-  return analogRead(m_pin);
+  uint32_t currentValue = analogRead(m_pin);
+  uint8_t returnValue = m_prevMidiValue;
+  if(abs(m_previousValue - currentValue) > 10)
+  {
+    returnValue = map(currentValue, 0, 1023, 0, 127);
+    m_prevMidiValue = returnValue;
+    m_previousValue = currentValue;
+  }
+  return returnValue;
 }

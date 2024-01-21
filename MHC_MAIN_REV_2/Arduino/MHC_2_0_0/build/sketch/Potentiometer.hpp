@@ -19,6 +19,8 @@ namespace MHC
 
     private:
         uint8_t m_pin;
+        uint32_t m_previousValue = 0;
+        uint8_t m_prevMidiValue = 0;
     };
 
 }
