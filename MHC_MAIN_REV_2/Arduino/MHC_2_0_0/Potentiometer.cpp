@@ -25,7 +25,13 @@ uint32_t Potentiometer::Read()
   uint8_t returnValue = m_prevMidiValue;
   if(abs(m_previousValue - currentValue) > 10)
   {
-    returnValue = map(currentValue, 0, 1023, 0, 127);
+    returnValue = map(currentValue, 0, 940, 0, 127);
+    if(returnValue > 127) {
+      returnValue = 127;
+    }
+    else if(returnValue < 0) {
+      returnValue = 0;
+    }
     m_prevMidiValue = returnValue;
     m_previousValue = currentValue;
   }

@@ -171,14 +171,14 @@ void MidiBluetoothManager::LoadPresets(uint8_t bank)
 void MidiBluetoothManager::Update() 
 {
     // Don't continue if we aren't connected.
-    // if (! Bluefruit.connected()) {
-    //     return;
-    // }
+    if (! Bluefruit.connected()) {
+        return;
+    }
 
-    // // Don't continue if the connected device isn't ready to receive messages.
-    // if (! blemidi.notifyEnabled()) {
-    //     return;
-    // }
+    // Don't continue if the connected device isn't ready to receive messages.
+    if (! blemidi.notifyEnabled()) {
+        return;
+    }
     
     // TODO: Just make this all one big for loop
     for(uint8_t i = 0; i < NUM_BUTTONS; i++)
@@ -194,19 +194,44 @@ void MidiBluetoothManager::Update()
     for(uint8_t i = 0; i < NUM_JOYSTICKS; i++)
     {
         MidiMessage_t midiMessage;
-        if(m_Joysticks[i].UpdateX(m_Joysticks[i].ReadX(), midiMessage))
+        bool direction;
+        if(m_Joysticks[i].UpdateX(midiMessage, direction))
         {
-            MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
-            midiDisplayManager.Update(midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
+            if(midiMessage.inType == PitchBend) {
+                if(direction) {
+                    MIDI.sendPitchBend((int)map(midiMessage.inData2, 0, 127, 0, 8191), midiMessage.inChannel);
+                    // Serial.println(map(midiMessage.inData2, 0, 127, 0, 8191));
+                }
+                else {
+                    MIDI.sendPitchBend((int)map(midiMessage.inData2, 0, 127, 0, -8191), midiMessage.inChannel);
+                    // Serial.println(map(midiMessage.inData2, 0, 127, 0, -8191));
+                }
+            }
+            else {
+                MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
+                // Serial.println(midiMessage.inData2); //print content to serial port
+            }
 
-            // Serial.println((uint8_t)midiMessage.inData2); //print content to serial port
-        }
-        if(m_Joysticks[i].UpdateY(m_Joysticks[i].ReadY(), midiMessage))
-        {
-            MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
             midiDisplayManager.Update(midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
-            
-            // Serial.println((uint8_t)midiMessage.inData2); //print content to serial port
+        }
+        if(m_Joysticks[i].UpdateY(midiMessage, direction))
+        {
+            if(midiMessage.inType == PitchBend) {
+                if(direction) {
+                    MIDI.sendPitchBend((int)map(midiMessage.inData2, 0, 127, 0, 8191), midiMessage.inChannel);
+                    // Serial.println(map(midiMessage.inData2, 0, 127, 0, 8191));
+                }
+                else {
+                    MIDI.sendPitchBend((int)map(midiMessage.inData2, 0, 127, 0, -8191), midiMessage.inChannel);
+                    // Serial.println(map(midiMessage.inData2, 0, 127, 0, -8191));
+                }
+            }
+            else {
+                MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
+                // Serial.println(midiMessage.inData2); //print content to serial port
+            }
+
+            midiDisplayManager.Update(midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
         }
     }
 
@@ -215,7 +240,13 @@ void MidiBluetoothManager::Update()
         MidiMessage_t midiMessage;
         if(m_Potentiometers[i].Update(m_Potentiometers[i].Read(), midiMessage))
         {
-            MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
+            if(midiMessage.inType == PitchBend) {
+                MIDI.sendPitchBend((int)map(midiMessage.inData2, 0, 127, 0, 8191), midiMessage.inChannel);
+                // Serial.println(map(midiMessage.inData2, 0, 127, 0, 8191));
+            }
+            else {
+                MIDI.send(midiMessage.inType, midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
+            }
             midiDisplayManager.Update(midiMessage.inData1, midiMessage.inData2, midiMessage.inChannel);
         }
     }

@@ -30,7 +30,7 @@ struct MidiMessage_t buttonFiveWayRightMessage0 = { NoteOff, 104, 0, 1 };
 struct MidiMessage_t buttonFiveWayClickMessage1 = { NoteOn, 105, 127, 1 };
 struct MidiMessage_t buttonFiveWayClickMessage0 = { NoteOff, 105, 0, 1 };
 Button buttonFiveWayUp(5, buttonFiveWayUpMessage0, buttonFiveWayUpMessage1);  // Up
-Button buttonFiveWayDown(LED_BUILTIN, buttonFiveWayDownMessage0, buttonFiveWayDownMessage1);  // Down
+Button buttonFiveWayDown(7, buttonFiveWayDownMessage0, buttonFiveWayDownMessage1);  // Down
 Button buttonFiveWayLeft(6, buttonFiveWayLeftMessage0, buttonFiveWayLeftMessage1);  // Left
 Button buttonFiveWayRight(28, buttonFiveWayRightMessage0, buttonFiveWayRightMessage1); // Right
 Button buttonFiveWayClick(30, buttonFiveWayClickMessage0, buttonFiveWayClickMessage1); // Click
@@ -42,7 +42,7 @@ Potentiometer potentiometer0(2, potentiometerMessage0);
 // Joystick
 // struct MidiMessage_t buttonJoystickClickMessage0 = { NoteOn, 107, 127, 1 };
 // struct MidiMessage_t buttonJoystickClickMessage1 = { NoteOff, 107, 0, 1 };
-struct MidiMessage_t potentiometerJoystickXMessage = { ControlChange, 108, 0, 1 };
+struct MidiMessage_t potentiometerJoystickXMessage = { PitchBend, 108, 0, 1 };
 struct MidiMessage_t potentiometerJoystickYMessage = { ControlChange, 109, 0, 1 };
 Joystick joystick0(29, potentiometerJoystickXMessage, 3, potentiometerJoystickYMessage);
 // Button buttonJoystickClick(23, buttonJoystickClickMessage0, buttonJoystickClickMessage1);
@@ -83,8 +83,8 @@ void setup()
 
     Serial.begin(115200);
 
-    pinMode(20, OUTPUT);
-    digitalWrite(20, HIGH);
+    // pinMode(20, OUTPUT);
+    // digitalWrite(20, HIGH);
 
     Serial.println("Starting application");
 

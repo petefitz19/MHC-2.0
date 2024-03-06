@@ -10,9 +10,9 @@
 #include <bluefruit.h>
 #include <MIDI.h>
 
-#define NUM_BUTTONS 1 // 6
+#define NUM_BUTTONS 6 // 6
 #define NUM_JOYSTICKS 1  // 1
-#define NUM_POTENTIOMETERS 0 // 1
+#define NUM_POTENTIOMETERS 1 // 1
 #define NUM_ENCODERS 0
 
 #define NUM_CHARS 62

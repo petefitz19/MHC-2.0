@@ -17,6 +17,8 @@ Joystick::Joystick(uint8_t pinX, MidiMessage_t valueX, uint8_t pinY, MidiMessage
 
 void Joystick::Init() 
 {
+  m_previousValueX = analogRead(m_pinX);
+  m_previousValueY = analogRead(m_pinY);
   m_initialized = true;
 }
 
@@ -60,35 +62,6 @@ void Joystick::Init()
 //   return m_midiValueX;
 // }
 
-uint32_t Joystick::ReadX()  
-{
-  const uint16_t margin = 10 ;   //  +/- 10
-  const uint16_t numberOfLevelsOutput = 127 ;  // 0..9
-  const uint16_t endPointInput[ numberOfLevelsOutput + 1 ] = { 160, 170, 175, 179, 184, 189, 194, 198, 203, 208, 213, 217, 222, 227, 232, 236, 241, 246, 251, 255, 260, 265, 270, 275, 279, 284, 289, 294, 298, 303, 308, 313, 317, 322, 327, 332, 336, 341, 346, 351, 355, 360, 365, 370, 375, 379, 384, 389, 394, 398, 403, 408, 413, 417, 422, 427, 432, 436, 441, 446, 451, 455, 460, 465, 470, 475, 479, 484, 489, 494, 498, 503, 508, 513, 517, 522, 527, 532, 536, 541, 546, 551, 555, 560, 565, 570, 575, 579, 584, 589, 594, 598, 603, 608, 613, 617, 622, 627, 632, 636, 641, 646, 651, 655, 660, 665, 670, 675, 679, 684, 689, 694, 698, 703, 708, 713, 717, 722, 727, 732, 736, 741, 746, 751, 755, 760, 765 } ;
-  const  uint16_t initialOutputLevel = 0 ;
-  static uint16_t currentOutputLevel = initialOutputLevel ;
-
-  uint16_t inputLevel = analogRead(m_pinX);
-
-  // get lower and upper bounds for currentOutputLevel
-  uint16_t lb = endPointInput[ currentOutputLevel ] ;
-  if ( currentOutputLevel > 0 ) lb -= margin  ;   // subtract margin
-
-  uint16_t ub = endPointInput[ currentOutputLevel + 1 ] ;
-  if ( currentOutputLevel < numberOfLevelsOutput ) ub +=  margin  ;  // add margin
-
-  // now test if input is between the outer margins for current output value
-  if ( inputLevel < lb || inputLevel > ub ) {
-    // determine new output level by scanning endPointInput array
-    uint16_t i;
-    for ( i = 0 ; i < numberOfLevelsOutput ; i++ ) {
-      if ( inputLevel >= endPointInput[ i ] && inputLevel <= endPointInput[ i + 1 ] ) break ;
-    }
-    currentOutputLevel = i ;
-  }
-  return currentOutputLevel ;
-}
-
 // uint32_t Joystick::ReadY() 
 // {
 //   uint32_t currentValueY = analogRead(m_pinY);
@@ -129,35 +102,6 @@ uint32_t Joystick::ReadX()
 //   return m_midiValueY;
 // }
 
-uint32_t Joystick::ReadY()  
-{
-  const uint16_t margin = 10 ;   //  +/- 10
-  const uint16_t numberOfLevelsOutput = 127 ;  // 0..9
-  const uint16_t endPointInput[ numberOfLevelsOutput + 1 ] = { 160, 170, 175, 179, 184, 189, 194, 198, 203, 208, 213, 217, 222, 227, 232, 236, 241, 246, 251, 255, 260, 265, 270, 275, 279, 284, 289, 294, 298, 303, 308, 313, 317, 322, 327, 332, 336, 341, 346, 351, 355, 360, 365, 370, 375, 379, 384, 389, 394, 398, 403, 408, 413, 417, 422, 427, 432, 436, 441, 446, 451, 455, 460, 465, 470, 475, 479, 484, 489, 494, 498, 503, 508, 513, 517, 522, 527, 532, 536, 541, 546, 551, 555, 560, 565, 570, 575, 579, 584, 589, 594, 598, 603, 608, 613, 617, 622, 627, 632, 636, 641, 646, 651, 655, 660, 665, 670, 675, 679, 684, 689, 694, 698, 703, 708, 713, 717, 722, 727, 732, 736, 741, 746, 751, 755, 760, 765 } ;
-  const  uint16_t initialOutputLevel = 0 ;
-  static uint16_t currentOutputLevel = initialOutputLevel ;
-
-  uint16_t inputLevel = analogRead(m_pinY);
-
-  // get lower and upper bounds for currentOutputLevel
-  uint16_t lb = endPointInput[ currentOutputLevel ] ;
-  if ( currentOutputLevel > 0 ) lb -= margin  ;   // subtract margin
-
-  uint16_t ub = endPointInput[ currentOutputLevel + 1 ] ;
-  if ( currentOutputLevel < numberOfLevelsOutput ) ub +=  margin  ;  // add margin
-
-  // now test if input is between the outer margins for current output value
-  if ( inputLevel < lb || inputLevel > ub ) {
-    // determine new output level by scanning endPointInput array
-    uint16_t i;
-    for ( i = 0 ; i < numberOfLevelsOutput ; i++ ) {
-      if ( inputLevel >= endPointInput[ i ] && inputLevel <= endPointInput[ i + 1 ] ) break ;
-    }
-    currentOutputLevel = i ;
-  }
-  return currentOutputLevel ;
-}
-
 void Joystick::SetValueX(MidiMessage_t value)
 {
     m_valueX = value;
@@ -180,27 +124,73 @@ MidiMessage_t Joystick::GetValueY()
     return m_valueY;
 }
 
-bool Joystick::UpdateX(uint32_t currentValue, MidiMessage_t& midiMessage) 
+bool Joystick::UpdateX(MidiMessage_t& midiMessage, bool& direction) 
 {
+    uint16_t halfValue = 448;
+    uint16_t minValue = 150;
+    uint16_t maxValue = 740;
+    uint16_t currentValue = analogRead(m_pinX);
+    Serial.println(currentValue); // Uncomment to get middle value
+
     bool retVal = false;
-    if(currentValue != m_previousMidiValueX)
+    if((currentValue > m_previousValueX + 10) || (currentValue < m_previousValueX - 10))
     {
-        m_valueX.inData2 = currentValue;
+        int mappedToMidiVal = 0;
+        if((currentValue < (halfValue - 10))) {
+          direction = false;
+          mappedToMidiVal = map(currentValue, minValue, halfValue - 10, 127, 0);
+        }
+        else if(currentValue > (halfValue + 10)) {
+          direction = true;
+          mappedToMidiVal = map(currentValue, halfValue + 10, maxValue, 0, 127);
+        }
+        
+        m_valueX.inData2 = mappedToMidiVal;
+        if(mappedToMidiVal > 127) {
+          m_valueX.inData2 = 127;
+        }
+
+        if(mappedToMidiVal < 0) {
+          m_valueX.inData2 = 0;
+        }
         midiMessage = m_valueX;
-        m_previousMidiValueX = currentValue;
+        m_previousValueX = currentValue;
         retVal = true;
     }
     return retVal;
 }
 
-bool Joystick::UpdateY(uint8_t currentValue, MidiMessage_t& midiMessage) 
+bool Joystick::UpdateY(MidiMessage_t& midiMessage, bool& direction) 
 {
+    uint16_t halfValue = 480;
+    int16_t minValue = 180;
+    uint16_t maxValue = 760;
+    uint16_t currentValue = analogRead(m_pinY);
+    //Serial.println(currentValue); // Uncomment to get middle value
+
     bool retVal = false;
-    if(currentValue != m_previousMidiValueY) 
+    if((currentValue > m_previousValueY + 10) || (currentValue < m_previousValueY - 10))
     {
-        m_valueY.inData2 = currentValue;
+        int mappedToMidiVal = 0;
+        if((currentValue < (halfValue - 10))) {
+          direction = false;
+          mappedToMidiVal = map(currentValue, minValue, halfValue - 10, 127, 0);
+        }
+        else if(currentValue > (halfValue + 10)) {
+          direction = true;
+          mappedToMidiVal = map(currentValue, halfValue + 10, maxValue, 0, 127);
+        }
+        
+        m_valueY.inData2 = mappedToMidiVal;
+        if(mappedToMidiVal > 127) {
+          m_valueY.inData2 = 127;
+        }
+
+        if(mappedToMidiVal < 0) {
+          m_valueY.inData2 = 0;
+        }
         midiMessage = m_valueY;
-        m_previousMidiValueY = currentValue;
+        m_previousValueY = currentValue;
         retVal = true;
     }
     return retVal;
