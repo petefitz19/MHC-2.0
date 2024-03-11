@@ -13,6 +13,7 @@ class MessageType(Enum):
     CC = 0xB0
     NoteOn = 0x90
     NoteOff = 0x80
+    PitchBend = 0xE0
 
 
 class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
@@ -31,7 +32,7 @@ class UploadWindowView(QtWidgets.QWidget, Ui_uploadWidget):
 
         for j in range(self.tableWidget.rowCount()):
             comboBox = QtWidgets.QComboBox()
-            comboBox.addItems(["PC", "CC", "NoteOn", "NoteOff"])
+            comboBox.addItems(["PC", "CC", "NoteOn", "NoteOff", "PitchBend"])
             self.tableWidget.setCellWidget(j, 0, comboBox)
 
             spinBox1 = QtWidgets.QSpinBox()
